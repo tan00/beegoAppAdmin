@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>添加API</title>
+    <link rel="stylesheet" href="/static/plug/layui/css/layui.css">
+</head>
+<body>
+<script type="text/javascript" src="/static/plug/layui/layui.js"></script>
+<form class="layui-form" action="/admin/appadd" style="margin:20px" method="post">
+
+
+	<!-- api types -->
+    <div class="layui-form-item">
+        <label class="layui-form-label">应用名称</label>
+        <div class="layui-input-block">
+            <input type="text" name="Name"   required lay-verify="required"  autocomplete="off" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">选择功能</label>
+        <div class="layui-input-block">
+          {{range $_,$sysapi := .SysApis}}
+              <input type="checkbox" name="{{$sysapi}}" title="{{$sysapi}}">
+          {{end}}
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">应用描述</label>
+        <div class="layui-input-block">
+            <textarea name="Commet" required lay-verify="required" class="layui-textarea"> </textarea>
+        </div>
+    </div>
+
+	
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-submit lay-filter="formDemo">提交</button>
+           <!-- <button type="reset" class="layui-btn layui-btn-primary">重置</button>-->
+        </div>
+    </div>
+	
+</form>
+
+<script>
+layui.use(['form'], function(){
+  var form = layui.form;  
+  form.render();
+});
+</script>
+
+ <script>
+ //监听提交
+  form.on('submit(formDemo)', function(data){
+    layer.msg(JSON.stringify(data.field));
+    return false;
+  });
+</script>
+
+</body>
+</html>

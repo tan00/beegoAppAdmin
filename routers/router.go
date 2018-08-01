@@ -6,15 +6,13 @@ import (
 )
 
 func init() {
+	//外部查询路由
+	beego.Router("/exquery/appDetail", &controllers.ExQueryController{},"Get:AppDetail")
 
-	beego.Router("/", &controllers.BlogController{}, "*:Home")
-	beego.Router("/home", &controllers.BlogController{}, "*:Home")
-	beego.Router("/article", &controllers.BlogController{}, "*:Article")
-	beego.Router("/detail", &controllers.BlogController{}, "*:Detail")
-	beego.Router("/about", &controllers.BlogController{}, "*:About")
-	beego.Router("/timeline", &controllers.BlogController{}, "*:Timeline")
-	beego.Router("/resource", &controllers.BlogController{}, "*:Resource")
-	beego.Router("/comment", &controllers.BlogController{}, "post:Comment")
-
+	//管理系统路由
+	beego.Router("/", &controllers.AdminController{}, "*:Main")
+	beego.Router("/admin/appDetail", &controllers.AdminController{},"Get:AppDetail" )
 	beego.AutoRouter(&controllers.AdminController{})
+
+	//fmt.Println(beego.URLFor("AdminController.AppDetail"))
 }

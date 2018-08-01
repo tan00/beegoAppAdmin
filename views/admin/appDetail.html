@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>APP详情</title>
+    <link rel="stylesheet" href="/static/plug/layui/css/layui.css">
+</head>
+
+<body>
+<script type="text/javascript" src="/static/plug/layui/layui.js"></script>
+
+<fieldset class="layui-elem-field layui-field-title site-title">
+    <legend><a name="default">APP详情</a></legend>
+</fieldset>
+
+<h3 class="section-title"> </h3>
+
+<table class="layui-table">
+    <colgroup>
+        <col width="150">
+        <col width="200">
+        <col>
+    </colgroup>
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>AppID</th>
+        <th>App Key</th>
+        <th>Secrete Key</th>
+        <th>Create Time</th>
+        <th>Status</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        {{with .UserApp}}
+            <td>{{.Name}}</td>
+            <td>{{.Id}}</td>
+            <td>{{.Appkey}}</td>
+            <td>{{.SecretKey}}</td>
+            <td>{{.Createtime}}</td>
+            <td>{{.Authorize | AuthString}}</td>
+        {{end}}
+    </tr>
+    </tbody>
+</table>
+
+
+<h3 class="section-title">API列表：</h3>
+<table class="layui-table">
+    <colgroup>
+        <col width="150">
+        <col width="200">
+        <col>
+    </colgroup>
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>请求地址</th>
+    </tr>
+    </thead>
+    <tbody>
+
+    {{with .SysApis}}
+    {{range $_,$sysapi := .}}
+    <tr>
+        <td>{{.Name}}</td>
+        <td>{{.Id | SysApiUrl}}</td>
+    </tr>
+    {{end}}
+    {{end}}
+    </tbody>
+</table>
+
+
+<h3 class="section-title">应用描述：</h3>
+<p> {{with .UserApp}} {{.Commet}} {{end}} </p>
+
+</body>
+</html>
