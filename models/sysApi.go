@@ -60,7 +60,7 @@ func GetAllApiNames() (apiNames []string, err error) {
 	var apis []SysApi
 	_, queryerr := qs.All(&apis)
 	if queryerr != nil {
-		log.Printf("query sysapi error", queryerr)
+		log.Println("query sysapi error" , queryerr)
 		return nil, queryerr
 	} else {
 		for _, api := range apis {
