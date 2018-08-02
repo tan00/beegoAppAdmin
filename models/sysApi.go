@@ -44,7 +44,6 @@ func AddApi(app *SysApi) (int64, error) {
 }
 
 
-
 //删除sysApi
 func DelApiById(Id int) (int64, error) {
 	o := orm.NewOrm()
