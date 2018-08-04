@@ -9,7 +9,6 @@ import (
 	_ "./routers"
 	"github.com/astaxie/beego"
 	_ "github.com/go-sql-driver/mysql"
-	"github.com/astaxie/beego/orm"
 )
 
 func Init() {
@@ -18,7 +17,7 @@ func Init() {
 
 	if beego.AppConfig.String("runmode") == "dev" {
 		beego.BConfig.Listen.EnableAdmin = true
-		orm.Debug = true
+		//orm.Debug = true
 	}
 }
 

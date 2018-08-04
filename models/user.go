@@ -5,10 +5,11 @@ import (
 	"log"
 	"time"
 
+	"strconv"
+
 	. "../lib"
 	"github.com/astaxie/beego/orm"
 	"github.com/astaxie/beego/validation"
-	"strconv"
 )
 
 //用户表
@@ -21,7 +22,7 @@ type User struct {
 	Company       string    `orm:"size(256)" form:"Email" valid:"Email"`
 	Lastlogintime time.Time `orm:"null;type(datetime)" form:"-"`
 	Createtime    time.Time `orm:"type(datetime);auto_now_add"`
-	UserApps      string    `orm:"type(text);" valid:"Required"`  //存放多个 UserApp的Id
+	UserApps      string    `orm:"type(text);" valid:"Required"` //存放多个 UserApp的Id
 }
 
 func init() {
@@ -79,6 +80,7 @@ func GetUserByUsername(username string) (user User) {
 	return user
 }
 
+//GetUserById  GetUserById
 func GetUserById(id int) (user User) {
 	user = User{Id: id}
 	o := orm.NewOrm()
@@ -86,7 +88,8 @@ func GetUserById(id int) (user User) {
 	return user
 }
 
-func AddUserAppsID(username string, ID int ) {
+//AddUserAppsID add UserApps field
+func AddUserAppsID(username string, ID int) {
 	user := User{Username: username}
 	o := orm.NewOrm()
 	o.Read(&user, "username")

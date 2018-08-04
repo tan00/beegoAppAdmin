@@ -1,6 +1,8 @@
 package models
 
 import (
+	"reflect"
+	"runtime/debug"
 	"testing"
 
 	"github.com/astaxie/beego"
@@ -39,6 +41,71 @@ func TestAddApi(t *testing.T) {
 			if got != tt.want {
 				t.Errorf("AddApi() = %v, want %v", got, tt.want)
 			}
+		})
+	}
+}
+
+func TestGetAllApiNames(t *testing.T) {
+	//todo init env
+	beego.TestBeegoInit("/home/ln/src/go/radium/beegoAppAdmin/beegoAppAdmin")
+	Connect()
+
+	var ArrayapiNames [3]string = [3]string{"api1", "api2", "api3"}
+	apiNames := ArrayapiNames[:3]
+
+	tests := []struct {
+		name         string
+		wantApiNames []string
+		wantErr      bool
+	}{
+		// TODO: Add test cases.
+		{"GetAllApiNames", apiNames, false},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			gotApiNames, err := GetAllApiNames()
+			if (err != nil) != tt.wantErr {
+				t.Errorf("GetAllApiNames() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if !reflect.DeepEqual(gotApiNames, tt.wantApiNames) {
+				t.Errorf("GetAllApiNames() = %v, want %v", gotApiNames, tt.wantApiNames)
+			}
+		})
+	}
+}
+
+func TestGetSysApiByName(t *testing.T) {
+	//todo init env
+	beego.TestBeegoInit("/home/ln/src/go/radium/beegoAppAdmin/beegoAppAdmin")
+	Connect()
+	gotApiNames, err := GetAllApiNames()
+	if err != nil {
+		t.Fatal("fatal error", debug.Stack())
+	}
+
+	type args struct {
+		appName string
+	}
+	tests := []struct {
+		name    string
+		args    args
+		wantApi SysApi
+		wantErr bool
+	}{
+		// TODO: Add test cases.
+		{"case1", args{appName: gotApiNames[0]}, SysApi{}, false},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			_, err := GetSysApiByName(tt.args.appName)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("GetSysApiByName() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			// if !reflect.DeepEqual(gotApi, tt.wantApi) {
+			// 	t.Errorf("GetSysApiByName() = %v, want %v", gotApi, tt.wantApi)
+			// }
 		})
 	}
 }

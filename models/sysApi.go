@@ -1,35 +1,36 @@
 package models
 
 import (
-	"github.com/astaxie/beego/orm"
 	"log"
-	"github.com/astaxie/beego"
-	"strings"
 	"strconv"
+	"strings"
+
+	"github.com/astaxie/beego"
+	"github.com/astaxie/beego/orm"
 )
 
 //Appinfo 所有系统API
 type SysApi struct {
-	Id       int
+	Id       int    `orm:"index"`
 	Name     string `orm:"unique;size(256)" form:"Name"      valid:"Required"`
 	Describe string `orm:"size(256)" form:"Describe"  valid:"Required"`
 }
 
 var (
-	urlMap =  map[int]string{
-		1:"https://aip.baidubce.com/rest/2.0/ocr/v1/idcard",
-		2:"https://aip.baidubce.com/rest/2.0/ocr/v1/bankcard",
-		3:"https://aip.baidubce.com/rest/2.0/ocr/v1/general",
+	urlMap = map[int]string{
+		1: "https://aip.baidubce.com/rest/2.0/ocr/v1/idcard",
+		2: "https://aip.baidubce.com/rest/2.0/ocr/v1/bankcard",
+		3: "https://aip.baidubce.com/rest/2.0/ocr/v1/general",
 	}
 )
 
-func SysApiUrl(id int)string{
+func SysApiUrl(id int) string {
 	return urlMap[id]
 }
 
-func init(){
+func init() {
 	orm.RegisterModel(new(SysApi))
-	beego.AddFuncMap("SysApiUrl",SysApiUrl)
+	beego.AddFuncMap("SysApiUrl", SysApiUrl)
 }
 
 func (u *SysApi) TableName() string {
@@ -42,7 +43,6 @@ func AddApi(app *SysApi) (int64, error) {
 	id, err := o.Insert(app)
 	return id, err
 }
-
 
 //删除sysApi
 func DelApiById(Id int) (int64, error) {
@@ -60,7 +60,7 @@ func GetAllApiNames() (apiNames []string, err error) {
 	var apis []SysApi
 	_, queryerr := qs.All(&apis)
 	if queryerr != nil {
-		log.Println("query sysapi error" , queryerr)
+		log.Println("query sysapi error", queryerr)
 		return nil, queryerr
 	} else {
 		for _, api := range apis {
@@ -77,27 +77,23 @@ func GetSysApiByName(appName string) (api SysApi, err error) {
 	return api, err
 }
 
-
-func GetApiById(id int)(api SysApi , err error){
+func GetApiById(id int) (api SysApi, err error) {
 	api = SysApi{Id: id}
 	o := orm.NewOrm()
 	err = o.Read(&api, "Id")
-	return api , err
+	return api, err
 }
 
+func GetAllApiByIds(ids string) (apis []SysApi, err error) {
 
-func GetAllApiByIds(ids string)(apis []SysApi , err error){
+	apiids := strings.Split(ids, ",")
+	for _, v := range apiids {
+		id, _ := strconv.Atoi(v)
 
-	apiids := strings.Split(ids,",")
-	for _,v := range apiids {
-		id , _ := strconv.Atoi(v)
-
-		api , err := GetApiById(id)
-		if err == nil{
+		api, err := GetApiById(id)
+		if err == nil {
 			apis = append(apis, api)
 		}
 	}
-	return  apis , err
+	return apis, err
 }
-
-
