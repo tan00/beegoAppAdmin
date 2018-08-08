@@ -23,6 +23,7 @@ func (c *ExQueryController) GetUserApp(id int) (uapp models.UserApp, err error) 
 //AppDetail 根据 userapp 的id 获取userapp的其他信息
 func (c *ExQueryController) AppDetail() {
 	result := make(map[string]interface{})
+	errorBlock := make(map[string]interface{})
 
 	var (
 		Appid          int = 0
@@ -34,21 +35,23 @@ func (c *ExQueryController) AppDetail() {
 
 	Appid, err = strconv.Atoi(c.GetString("appid"))
 	if err != nil {
-		result["error_msg"] = "Invalid parameter"
-		result["error_code"] = ErrInvalidPara
+		errorBlock["error_msg"] = "Invalid parameter"
+		errorBlock["error_code"] = ErrInvalidPara
 		goto respon
 	}
 
 	uapp, err = c.GetUserApp(Appid)
 	if err != nil {
-		result["error_msg"] = "Invalid Appid"
-		result["error_code"] = ErrInvalidAppid
+		errorBlock["error_msg"] = "Invalid Appid"
+		errorBlock["error_code"] = ErrInvalidAppid
 		goto respon
 	}
 
-	result["error_msg"] = ""
-	result["error_code"] = ErrNormal
-	result["appid"] = uapp.Id
+	errorBlock["error_msg"] = ""
+	errorBlock["error_code"] = ErrNormal
+
+	result["error"] = errorBlock
+	result["AppID"] = uapp.Id
 	result["Name"] = uapp.Name
 	result["Appkey"] = uapp.Appkey
 	result["Commet"] = uapp.Commet
@@ -60,7 +63,7 @@ func (c *ExQueryController) AppDetail() {
 		sysapisNameStr += v.Name
 		sysapisNameStr += ","
 	}
-	result["SysApis"] = sysapisNameStr
+	result["SysAPIS"] = sysapisNameStr
 
 respon:
 	c.Data["json"] = result
