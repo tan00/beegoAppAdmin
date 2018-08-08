@@ -11,11 +11,12 @@ import (
 
 //Appinfo 所有系统API
 type SysApi struct {
-	Id       int    `orm:"index"`
-	Name     string `orm:"unique;size(256)" form:"Name"      valid:"Required"`
+	Id       int
+	Name     string `orm:"unique;size(128)" form:"Name"      valid:"Required"`
 	Describe string `orm:"size(256)" form:"Describe"  valid:"Required"`
 }
 
+//系统api对应的网址
 var (
 	urlMap = map[int]string{
 		1: "https://aip.baidubce.com/rest/2.0/ocr/v1/idcard",
