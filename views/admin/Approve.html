@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title> 审批APP </title>
+    <link rel="stylesheet" href="/static/plug/layui/css/layui.css">
+</head>
+
+<body link="#9933ff">
+<script type="text/javascript" src="/static/plug/layui/layui.js"></script>
+
+<form class="layui-form" action="">
+
+
+<div class="layui-form-item">
+
+<table class="layui-table">
+    <colgroup>
+        <!-- <col width="150">
+        <col width="200">
+        <col> -->
+    </colgroup>
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>AppID</th>
+        <th>Ower</th>
+        <th>Create Time</th>
+        <th>Status</th>
+    </tr>
+    </thead>
+    <tbody>        
+        {{range $_,$Uapp := $.UserApps}}
+        <tr>
+            {{with $Uapp}}
+                <td> {{.Name}} </a> </td>
+                <td>{{.Id}}</td>
+                <td>{{.Owner}}</td>    
+                <td>{{.Createtime}}</td>     
+                <td>  
+                      
+                    <div class="layui-input-block">
+                    <input type="radio" name="status" value="0"    title= "审核中">
+                    <input type="radio" name="status" value="1"    title= "启用" >
+                    <input type="radio" name="status" value="-1"   title= "禁用">
+
+                    <!-- <script>
+                        
+                    </script> -->
+
+                    </div> 
+                     
+                </td>
+            {{end}}
+        </tr>
+        {{end}}
+    </tbody>
+</table>
+
+
+
+</form>
+
+<script>
+    layui.use(['form'], function(){
+        var form = layui.form;
+        form.render();
+    });
+
+    //监听提交
+    form.on('submit(formDemo)', function(data){
+    layer.msg(JSON.stringify(data.field));
+    return false;
+    });
+</script>
+
+
+</body>
+</html>

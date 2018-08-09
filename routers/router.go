@@ -14,5 +14,7 @@ func init() {
 	beego.Router("/admin/appDetail", &controllers.AdminController{}, "Get:AppDetail")
 	beego.AutoRouter(&controllers.AdminController{})
 
+	//超级管理员路由,可进行审批操作
+
 	//fmt.Println(beego.URLFor("AdminController.AppDetail"))
 }

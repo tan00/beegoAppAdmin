@@ -23,6 +23,7 @@ type User struct {
 	Lastlogintime time.Time `orm:"null;type(datetime)" form:"-"`
 	Createtime    time.Time `orm:"type(datetime);auto_now_add"`
 	UserApps      string    `orm:"type(text);" valid:"Required"` //存放多个 UserApp的Id
+	Level         int8      `orm:"default(0)"`                   //用户权限划分 普通用户0  超级管理员1
 }
 
 func init() {
@@ -37,6 +38,10 @@ func (u *User) Valid(v *validation.Validation) {
 	if u.Password != u.Repassword {
 		v.SetError("Repassword", "两次输入的密码不一样")
 	}
+}
+
+func (u *User) IsSupperUser() bool {
+	return u.Level == 1
 }
 
 //验证用户信息
@@ -96,5 +101,15 @@ func AddUserAppsID(username string, ID int) {
 	user.UserApps += strconv.Itoa(ID)
 	user.UserApps += ","
 	o.Update(&user)
+	return
+}
+
+//ModifyAppAuth 修改 UserApp Authorize字段  ,可禁用 启用 UserApp
+func ModifyAppAuth(ID int, auth int8) {
+	uapp := UserApp{Id: ID}
+	o := orm.NewOrm()
+	o.Read(&uapp, "Id")
+	uapp.Authorize = auth
+	o.Update(&uapp)
 	return
 }
