@@ -39,19 +39,12 @@
                 <td>{{.Id}}</td>
                 <td>{{.Owner}}</td>    
                 <td>{{.Createtime}}</td>     
-                <td>  
-                      
-                    <div class="layui-input-block">
-                    <input type="radio" name="status" value="0"    title= "审核中">
-                    <input type="radio" name="status" value="1"    title= "启用" >
-                    <input type="radio" name="status" value="-1"   title= "禁用">
-
-                    <!-- <script>
-                        
-                    </script> -->
-
-                    </div> 
-                     
+                <td>                        
+                    <div class="layui-input-block" lay-submit lay-filter="statusBlock">
+                    <input type="radio" name="status" value="0"    title= "审核中"   {{if eq 0 .Authorize}}} checked {{end}} >
+                    <input type="radio" name="status" value="1"    title= "启用"  {{if eq 1 .Authorize}}} checked {{end}} >
+                    <input type="radio" name="status" value="-1"   title= "禁用"  {{if eq -1 .Authorize}}} checked {{end}}>
+                    </div>                      
                 </td>
             {{end}}
         </tr>
@@ -64,16 +57,18 @@
 </form>
 
 <script>
-    layui.use(['form'], function(){
-        var form = layui.form;
+    var form = layui.form;
+    layui.use(['form'], function(){        
         form.render();
     });
 
     //监听提交
-    form.on('submit(formDemo)', function(data){
-    layer.msg(JSON.stringify(data.field));
-    return false;
+    form.on('submit(statusBlock)', function(data){
+        layer.msg(JSON.stringify(data.field));
+        console.log("hello")
+        return false;
     });
+
 </script>
 
 

@@ -48,18 +48,17 @@
 </form>
 
 <script>
-layui.use(['form'], function(){
-  var form = layui.form;  
-  form.render();
-});
-</script>
+    var form = layui.form; 
+    layui.use(['form'], function(){   
+    form.render();
+    });
 
- <script>
- //监听提交
-  form.on('submit(formDemo)', function(data){
+   //监听提交
+   form.on('submit(formDemo)', function(data){
     layer.msg(JSON.stringify(data.field));
     return false;
   });
+
 </script>
 
 </body>
