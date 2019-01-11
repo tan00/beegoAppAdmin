@@ -40,7 +40,7 @@ func dbinit() {
 }
 
 func main() {
-	dbinit()
+	//dbinit()
 	Init()
 	beego.Run()
 }
