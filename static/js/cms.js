@@ -144,7 +144,9 @@ layui.define(['layer', 'element', 'fortree'], function(exports) {
 	 * 根据索引点击导航栏的某个li
 	 */
 	function clickLI(index) {
-		nav.find('li').eq(index || 0).click();
+		//nav.find('li').eq(index || 0).click();
+		var _t = nav.find('li').eq(index || 0)
+        _t.click();
 	}
 
 	/**

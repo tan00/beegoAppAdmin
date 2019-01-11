@@ -36,7 +36,6 @@ func Syncdb() {
 	//insertApp()
 
 	fmt.Println("database init is complete.\nPlease restart the application")
-
 }
 
 //数据库连接
@@ -120,8 +119,6 @@ func createdb() {
 
 }
 
-
-
 func insertUser() {
 	fmt.Println("insert user ...")
 	u := new(User)
@@ -137,9 +134,9 @@ func insertUser() {
 func insertSysApi() {
 	fmt.Println("insert sysapi ...")
 	o = orm.NewOrm()
-	api1 := SysApi{Name:"api1",Describe:"api1 decribe"}
+	api1 := SysApi{Name: "api1", Describe: "api1 decribe"}
 	o.Insert(&api1)
-	api2 := SysApi{Name:"api2",Describe:"api2 decribe"}
+	api2 := SysApi{Name: "api2", Describe: "api2 decribe"}
 	o.Insert(&api2)
 	fmt.Println("insert sysapi end")
 }
@@ -150,5 +147,3 @@ func insertApp() {
 	o.Insert(app)
 	fmt.Println("insert app end")
 }
-
-
