@@ -7,6 +7,8 @@ import (
 
 	"./models"
 	_ "./routers"
+	"./util"
+
 	"github.com/astaxie/beego"
 	_ "github.com/go-sql-driver/mysql"
 )
@@ -42,5 +44,7 @@ func dbinit() {
 func main() {
 	//dbinit()
 	Init()
+	util.WritePidFile()
 	beego.Run()
+
 }
